@@ -37,8 +37,8 @@ body{
 }
 .shape:first-child{
     background: linear-gradient(
-        #1845ad,
-        #23a2f6
+        #f532ff,
+        #7723f6
     );
     left: -80px;
     top: -80px;
@@ -46,8 +46,8 @@ body{
 .shape:last-child{
     background: linear-gradient(
         to right,
-        #ff512f,
-        #f09819
+        #8c3bff,
+        #790b46
     );
     right: -30px;
     bottom: -80px;
@@ -135,31 +135,47 @@ button{
 }
 
     </style>
+        <script>
+            function validateEmail() {
+                var email = document.getElementById('email').value;
+                var allowedDomains = ['gmail.com', 'nmamit.in', 'nitte.edu.in'];
+    
+                var isValid = allowedDomains.some(function(domain) {
+                    return email.endsWith('@' + domain);
+                });
+    
+                if (!isValid) {
+                    alert('Invalid email domain. Please use a valid email address.');
+                    return false;  // Prevent form submission
+                }
+    
+                return true;  // Allow form submission
+            }
+        </script>
 </head>
 <body>
     <div class="background">
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form action="" method="post">
-        {% csrf_token %} 
+    <form action="" method="post" onsubmit="return validateEmail();">
+        {% csrf_token %}
         <h3>Signup Here</h3>
 
         <label for="username">Username</label>
         <input type="text" placeholder="Username" name="username" id="username" required>
 
         <label for="email">Email</label>
-        <input type="email" placeholder="Email or Phone" name="email" id="email" required>
+        <input type="email" placeholder="Email" name="email" id="email" required>
 
         <label for="password1">Password</label>
         <input type="password" placeholder="Password" id="password1" name="password1" required>
 
-
         <label for="password2">Confirm Password</label>
         <input type="password" placeholder="Confirm Password" id="password2" name="password2" required>
         <button type="submit">Signup</button>
-        
-        <a href="{% url 'login' %}" >i have already account</a>
+
+        <a href="{% url 'login' %}">I already have an account</a>
     </form>
 </body>
 </html>

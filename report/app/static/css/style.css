@@ -21,7 +21,12 @@
  height: 2.8em;
  padding-right: 3.3em;
 }
-
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
 .cssbuttons-io-button .icon {
  background: white;
  margin-left: 1em;

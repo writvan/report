@@ -26,5 +26,5 @@ urlpatterns = [
     path('logout/',views.LogoutPage,name='logout'),
     path('index/', views.IndexPage, name='index_view'),
     path('upload/', views.UploadPage, name='upload'),
-    
+    path('handle_pdf_upload/', views.handle_pdf_upload, name='handle_pdf_upload'),
 ]

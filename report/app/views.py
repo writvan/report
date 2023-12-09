@@ -39,7 +39,7 @@ def LoginPage(request):
         user=authenticate(request,username=username,password=pass1)
         if user is not None:
             login(request,user)
-            return redirect('home')
+            return redirect('upload')
         else:
             return HttpResponse ("Username or Password is incorrect!!!")
 
@@ -47,11 +47,12 @@ def LoginPage(request):
 
 def LogoutPage(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
 
 def IndexPage(request):
     return render(request, 'home.html')
 
+@login_required(login_url='login')
 def upload(request):
     if request.method == 'POST':
         form = FileUploadForm(request.POST, request.FILES)
@@ -73,5 +74,37 @@ def upload(request):
 def UploadPage(request):
     return render(request,'upload.html')
 
+#uploadpdf
+from django.shortcuts import render
+import fitz  # PyMuPDF
 
+def handle_pdf_upload(request):
+    if request.method == 'POST':
+        # Assuming the file input field is named 'pdfFile'
+        pdf_file = request.FILES.get('pdfFile')
+
+        # Perform server-side validation and checks
+        if pdf_file and pdf_file.name.lower().endswith('.pdf'):
+            doc = fitz.open(pdf_file)
+            
+            # Example checks (you need to adapt this based on your requirements)
+            for page_num in range(doc.page_count):
+                page = doc[page_num]
+                for block in page.get_text("blocks"):
+                    if block['font'] != 'Arial':
+                        # Alert: Text is not Arial
+                        return render(request, 'error.html', {'message': 'Text is not in Arial font.'})
+                    
+                    if block['size'] == 20 and 'bold' not in block['font_flags']:
+                        # Alert: Headings are not proper
+                        return render(request, 'error.html', {'message': 'Headings are not proper (not bold, size 20).'})
+                    
+                    if block['size'] == 14 and 'bold' not in block['font_flags'] and 'justified' not in block['script_flags']:
+                        # Alert: Body is not proper
+                        return render(request, 'error.html', {'message': 'Body text is not proper (not bold, size 14, justified).'})
+            
+            # Perform further processing or save the PDF file to the database
+            # ...
+
+    return render(request, 'uploadpdf.html')
 
