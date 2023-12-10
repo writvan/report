@@ -39,7 +39,7 @@ def LoginPage(request):
         user=authenticate(request,username=username,password=pass1)
         if user is not None:
             login(request,user)
-            return redirect('upload')
+            return redirect('pdfupload:upload_file')
         else:
             return HttpResponse ("Username or Password is incorrect!!!")
 

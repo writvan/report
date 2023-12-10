@@ -1,0 +1,35 @@
+<!-- pdfupload/templates/pdfupload/upload.html -->
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Verify</button>
+</form>
+
+{% if num_words %}
+  <div class="result">
+      <h3>Total number of words in file: {{ num_words }}</h3>
+  </div>
+{% endif %}
+
+{% if spelling_errors %}
+  <div class="result">
+      <h3>Spelling Errors:</h3>
+      <ul>
+          {% for error in spelling_errors %}
+              <li>{{ error }}</li>
+          {% endfor %}
+      </ul>
+  </div>
+{% endif %}
+
+{% if errors %}
+  <div class="result">
+      <h3>Other Errors:</h3>
+      <ul>
+          {% for error in errors %}
+              <li>{{ error }}</li>
+          {% endfor %}
+      </ul>
+  </div>
+{% endif %}
