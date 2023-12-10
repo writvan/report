@@ -12,16 +12,30 @@
   </div>
 {% endif %}
 
+<!-- pdfupload/templates/pdfupload/upload.html -->
+
 {% if spelling_errors %}
-  <div class="result">
-      <h3>Spelling Errors:</h3>
-      <ul>
-          {% for error in spelling_errors %}
-              <li>{{ error }}</li>
-          {% endfor %}
-      </ul>
-  </div>
+    <div class="result">
+        <h3>Spelling Errors:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Spelling Error</th>
+                    <th>Correction</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for error, corrected_word in corrected_spelling_errors %}
+                    <tr>
+                        <td>{{ error }}</td>
+                        <td>{% if corrected_word %}{{ corrected_word }}{% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endif %}
+
 
 {% if errors %}
   <div class="result">

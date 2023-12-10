@@ -6,12 +6,20 @@ from pdfminer.high_level import extract_text
 from pdfminer.pdfdocument import PDFPasswordIncorrect
 import enchant
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate,login,logout
 # pdfupload/views.py
+from django.shortcuts import render, redirect
+from .forms import UploadFileForm
+from pdfminer.high_level import extract_text
+from pdfminer.pdfdocument import PDFPasswordIncorrect
+from spellchecker import SpellChecker 
+
 @login_required(login_url='login')
 def upload_file(request):
     errors = []
     num_words = 0
     spelling_errors = []
+    corrected_spelling_errors = {}  # Initialize corrected_spelling_errors
 
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
@@ -22,6 +30,9 @@ def upload_file(request):
             pdf_path = uploaded_file.pdf_file.path
             errors, num_words, spelling_errors = check_pdf_content(pdf_path)
 
+            # Correct spelling errors using SpellChecker
+            corrected_spelling_errors = correct_spelling_errors(spelling_errors)
+
     else:
         form = UploadFileForm()
 
@@ -30,10 +41,18 @@ def upload_file(request):
         'errors': errors,
         'num_words': num_words,
         'spelling_errors': spelling_errors,
+        'corrected_spelling_errors': corrected_spelling_errors.items(),  # Convert to key-value pairs
     })
 
-# pdfupload/views.py
+def correct_spelling_errors(spelling_errors):
+    spell = SpellChecker()
+    corrected_spelling_errors = {}
+    
+    for error in spelling_errors:
+        corrected_word = spell.correction(error)
+        corrected_spelling_errors[error] = corrected_word
 
+    return corrected_spelling_errors
 def check_pdf_content(pdf_path):
     errors = []
     num_words = 0
