@@ -40,12 +40,12 @@ Upload a PDF file and click the "Upload" button.
 View the analysis results, including word count, spelling errors, corrections, and synonyms.
 
 Dependencies
--Django: https://www.djangoproject.com/
--PyMuPDF: https://pymupdf.readthedocs.io/
--PySpellChecker: https://pyspellchecker.readthedocs.io/
--NLTK: https://www.nltk.org/
--License
--This project is licensed under the MIT License - see the LICENSE file for details.
+- Django: https://www.djangoproject.com/
+- PyMuPDF: https://pymupdf.readthedocs.io/
+- PySpellChecker: https://pyspellchecker.readthedocs.io/
+- NLTK: https://www.nltk.org/
+- License
+- This project is licensed under the MIT License - see the LICENSE file for details.
 
 Acknowledgments
 Special thanks to OpenAI for providing the language model used in this project.
