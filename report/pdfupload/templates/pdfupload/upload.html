@@ -1,13 +1,43 @@
 <!-- pdfupload/templates/pdfupload/upload.html -->
-
-<form method="post" enctype="multipart/form-data">
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Report Verifier</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-gray-400" >
+<header class="text-gray-400 bg-gray-900 sticky body-font">
+  <div class="container mx-auto flex flex-wrap  flex-col md:flex-row items-center">
+    <a class="flex title-font font-medium items-center text-white mb-4 md:mb-0" href="{% url 'home' %}">
+      <svg fill="#ffffff" width="64px" height="64px" viewBox="-3.6 -3.6 31.20 31.20" id="report-pie-chart-11" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg" class="icon flat-line"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path id="secondary" d="M13,12a5,5,0,0,1-5,5v3a1,1,0,0,0,1,1H20a1,1,0,0,0,1-1V4a1,1,0,0,0-1-1H9A1,1,0,0,0,8,4V7A5,5,0,0,1,13,12Z" style="fill: #111926; stroke-width: 2;"></path><path id="primary" d="M8,17v3a1,1,0,0,0,1,1H20a1,1,0,0,0,1-1V4a1,1,0,0,0-1-1H9A1,1,0,0,0,8,4V7" style="fill: none; stroke: #6266f0; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path><path id="primary-2" data-name="primary" d="M8,7a5,5,0,1,1-5,5A5,5,0,0,1,8,7ZM8,7v5l3.54,3.54A5,5,0,0,0,8,7Z" style="fill: none; stroke: #6266f0; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path></g></svg>
+      <span class="ml-3 text-xl">Report Verifier</span>
+    </a>
+    <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+      <!-- <a class="mr-5 hover:text-white" href="#instruct">Instructions</a>
+      <a class="mr-5 hover:text-white" href="#team">Our Team</a>
+      <a class="mr-5 hover:text-white" href="#contact">Contact Us</a> -->
+    </nav>
+    <a href="{% url 'logout' %}" class="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">
+      Logout
+      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+      </svg>
+  </a>
+  <br>
+  </div>
+</header>
+<form method="post" enctype="multipart/form-data" class="p-10">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Verify</button>
+  <button class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg" type="submit">Verify</button>
 </form>
 
 {% if num_words %}
-  <div class="result">
+  <div class="result px-10 py-2">
       <h3>Total number of words in file: {{ num_words }}</h3>
   </div>
 {% endif %}
@@ -15,30 +45,33 @@
 <!-- pdfupload/templates/pdfupload/upload.html -->
 
 {% if spelling_errors %}
-    <div class="result">
-        <h3>Spelling Errors:</h3>
-        <table>
+<div class="result p-10">
+    <h3>Spelling Errors:</h3>
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse border border-gray-800">
             <thead>
                 <tr>
-                    <th>Spelling Error</th>
-                    <th>Correction</th>
+                    <th class="border border-gray-400 p-2">Spelling Error</th>
+                    <th class="border border-gray-400 p-2">Correction</th>
                 </tr>
             </thead>
             <tbody>
                 {% for error, corrected_word in corrected_spelling_errors %}
-                    <tr>
-                        <td>{{ error }}</td>
-                        <td>{% if corrected_word %}{{ corrected_word }}{% endif %}</td>
-                    </tr>
+                <tr>
+                    <td class="border border-gray-400 p-2">{{ error }}</td>
+                    <td class="border border-gray-400 p-2">{% if corrected_word %}{{ corrected_word }}{% endif %}</td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+</div>
 {% endif %}
 
 
+
 {% if errors %}
-  <div class="result">
+  <div class="result px-10">
       <h3>Other Errors:</h3>
       <ul>
           {% for error in errors %}
@@ -47,3 +80,109 @@
       </ul>
   </div>
 {% endif %}
+<section class="text-gray-400 bg-gray-900 body-font relative">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="flex flex-col text-center w-full mb-12">
+        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-white" id="contact">Contact Us</h1>
+        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">For queries contact us below</p>
+      </div>
+      <div class="lg:w-1/2 md:w-2/3 mx-auto">
+        <div class="flex flex-wrap -m-2">
+          <div class="p-2 w-1/2">
+            <div class="relative">
+              <label for="name" class="leading-7 text-sm text-gray-400">Name</label>
+              <input type="text" id="name" name="name" class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+            </div>
+          </div>
+          <div class="p-2 w-1/2">
+            <div class="relative">
+              <label for="email" class="leading-7 text-sm text-gray-400">Email</label>
+              <input type="email" id="email" name="email" class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+            </div>
+          </div>
+          <div class="p-2 w-full">
+            <div class="relative">
+              <label for="message" class="leading-7 text-sm text-gray-400">Message</label>
+              <textarea id="message" name="message" class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 h-32 text-base outline-none text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+            </div>
+          </div>
+          <div class="p-2 w-full">
+            <button class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Send</button>
+          </div>
+          <div class="p-2 w-full pt-8 mt-8 border-t border-gray-800 text-center">
+            <a class="text-indigo-400">writvanghosh123@gmail.com</a>
+            <p class="leading-normal my-5">201,Block 4
+              <br>Boys hostel NMAMIT
+            </p>
+            <span class="inline-flex">
+              <a class="text-gray-500">
+                <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+                </svg>
+              </a>
+              <a class="ml-4 text-gray-500">
+                <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+                </svg>
+              </a>
+              <a class="ml-4 text-gray-500">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+                </svg>
+              </a>
+              <a class="ml-4 text-gray-500">
+                <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
+                </svg>
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+<!-- End page content -->
+</div>
+
+
+<!-- Footer -->
+<footer class="text-gray-400 bg-gray-900 body-font">
+  <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
+    <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">
+      <svg fill="#ffffff" width="64px" height="64px" viewBox="-3.6 -3.6 31.20 31.20" id="report-pie-chart-11" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg" class="icon flat-line"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path id="secondary" d="M13,12a5,5,0,0,1-5,5v3a1,1,0,0,0,1,1H20a1,1,0,0,0,1-1V4a1,1,0,0,0-1-1H9A1,1,0,0,0,8,4V7A5,5,0,0,1,13,12Z" style="fill: #111926; stroke-width: 2;"></path><path id="primary" d="M8,17v3a1,1,0,0,0,1,1H20a1,1,0,0,0,1-1V4a1,1,0,0,0-1-1H9A1,1,0,0,0,8,4V7" style="fill: none; stroke: #6266f0; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path><path id="primary-2" data-name="primary" d="M8,7a5,5,0,1,1-5,5A5,5,0,0,1,8,7ZM8,7v5l3.54,3.54A5,5,0,0,0,8,7Z" style="fill: none; stroke: #6266f0; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path></g></svg>
+        <span class="ml-3 text-xl">Report Verifier</span>
+    </a>
+    <p class="text-sm text-gray-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4">© DBMS mini project 2023 
+      
+    </p>
+    <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+      <a class="text-gray-400">
+        <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+          <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+        </svg>
+      </a>
+      <a class="ml-3 text-gray-400">
+        <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+          <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+        </svg>
+      </a>
+      <a class="ml-3 text-gray-400">
+        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+        </svg>
+      </a>
+      <a class="ml-3 text-gray-400">
+        <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
+          <path stroke="none" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+          <circle cx="4" cy="4" r="2" stroke="none"></circle>
+        </svg>
+      </a>
+    </span>
+  </div>
+</footer>
+</body>
+</html>
