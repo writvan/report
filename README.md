@@ -37,7 +37,7 @@ Click on the "Get Started" button to navigate to the PDF upload page.
 
 Upload a PDF file and click the "Upload" button.
 
-View the analysis results, including word count, spelling errors, corrections, and synonyms.
+View the analysis results, including word count, spelling errors, and corrections.
 
 Dependencies
 - Django: https://www.djangoproject.com/

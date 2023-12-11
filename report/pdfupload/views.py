@@ -13,6 +13,7 @@ from .forms import UploadFileForm
 from pdfminer.high_level import extract_text
 from pdfminer.pdfdocument import PDFPasswordIncorrect
 from spellchecker import SpellChecker 
+from .models import DocumentDetails, DocumentCorrections
 
 @login_required(login_url='login')
 def upload_file(request):
@@ -32,6 +33,20 @@ def upload_file(request):
 
             # Correct spelling errors using SpellChecker
             corrected_spelling_errors = correct_spelling_errors(spelling_errors)
+
+             # Save document details
+            doc_details = DocumentDetails.objects.create(
+                doc_name=uploaded_file.pdf_file.name,
+                num_words=num_words
+            )
+
+            # Save document corrections
+            DocumentCorrections.objects.create(
+                doc_details=doc_details,
+                spell_errors=spelling_errors,
+                corrections=corrected_spelling_errors
+            )
+
 
     else:
         form = UploadFileForm()
